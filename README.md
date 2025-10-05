@@ -1,3 +1,5 @@
+This is a fork of Nino Filiu's Blender AmbientCG Addon
+
 # Blender AmbientCG Addon
 
 One-click material creation from AmbientCG
