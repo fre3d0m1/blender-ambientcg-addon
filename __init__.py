@@ -22,7 +22,6 @@ class AmbientCGPreferences(bpy.types.AddonPreferences):
     cache_dir: StringProperty(
         name="Cache Folder",
         subtype="DIR_PATH",
-        default=str(Path.home() / ".cache" / "ambientcg"),
         description="Directory where AmbientCG texture PNGs will be stored",
     )
 
@@ -33,7 +32,14 @@ class AmbientCGPreferences(bpy.types.AddonPreferences):
 
 def get_cache_dir():
     prefs: AmbientCGPreferences = bpy.context.preferences.addons[__name__].preferences
-    dir_path = Path(prefs.cache_dir)
+
+    # If user hasn’t set a custom path, use the current .blend project folder
+    if not prefs.cache_dir:
+        project_dir = Path(bpy.path.abspath("//"))  # folder of current .blend file
+        dir_path = project_dir / "cache" / "ambientcg"
+    else:
+        dir_path = Path(prefs.cache_dir)
+
     dir_path.mkdir(parents=True, exist_ok=True)
     return dir_path
 
